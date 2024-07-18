@@ -1,0 +1,13 @@
+Question: https://datalemur.com/questions/top-fans-rank
+
+Solution:
+
+with a as (
+SELECT artist_name,count(*) cnt FROM artists  a
+join  songs  s on a.artist_id=s.artist_id
+join global_song_rank  g on s.song_id=g.song_id where rank <11
+group by artist_name
+)
+select * from (
+select artist_name,
+dense_rank() over (order by cnt desc) as rank from a) B where rank <=5
