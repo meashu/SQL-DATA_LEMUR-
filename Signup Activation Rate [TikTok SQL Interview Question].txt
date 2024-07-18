@@ -1,0 +1,12 @@
+Question: https://datalemur.com/questions/signup-confirmation-rate
+
+Solution:
+
+with a as(
+
+SELECT e.email_id,
+(case when signup_action='Confirmed' then 1 else 0 end ) as activated
+FROM emails e join texts t on e.email_id=t.email_id
+)
+
+select round((sum(activated)*1.0/count(*)),2) as confirm_rate from a
